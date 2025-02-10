@@ -5,6 +5,7 @@ import {jwtDecode} from "jwt-decode";
 import { UserType } from '../UserContext';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import BASE_URL from '../config';
 
 const AddressScreen = () => {
     const [name, setName] = useState("");
@@ -37,7 +38,7 @@ const AddressScreen = () => {
         landmark,
         postalCode
       }
-      axios.post("https://ecom-backend-peach.vercel.app/addresses",{userId,address})
+      axios.post(`${BASE_URL}/addresses`,{userId,address})
       .then((response)=>{
         console.log(response.data);
         Alert.alert("Address added successfully");
@@ -62,7 +63,7 @@ const AddressScreen = () => {
     console.log(userId);
   return (
     <ScrollView>
-      <View style={{ height: 50, backgroundColor: "#00CED1" }} />
+      <View style={{ height: 50, backgroundColor: "#FF8C42" }} />
       <View style={{ padding: 10 }}>
       <Text style={{ fontSize: 17, fontWeight: "bold" }}>
           Add a new Address
@@ -167,7 +168,7 @@ const AddressScreen = () => {
               marginTop: 10,
               borderRadius: 5,
             }}
-            placeholder="Eg near appollo hospital"
+            placeholder="Eg near wall street"
           />
         </View>
         <View>
@@ -191,7 +192,7 @@ const AddressScreen = () => {
         <Pressable
         onPress={handleAddAddress}
           style={{
-            backgroundColor: "#FFC72C",
+            backgroundColor: "#FF8C42",
             padding: 19,
             borderRadius: 6,
             justifyContent: "center",

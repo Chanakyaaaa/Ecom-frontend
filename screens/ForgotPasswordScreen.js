@@ -17,23 +17,35 @@ import axios from "axios";
 import { UserType } from "../UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
+import BASE_URL from "../config";
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [Password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigation = useNavigation();
   const {userId,setUserId}=useContext(UserType);
+  const [loading, setLoading] = useState(false);
  
 
   const handleChangePassword = () => {
+    setLoading(true);
     const updateduser = {
       email:email,
-      oldPassword: oldPassword,
-      newPassword: newPassword,
+      newPassword:Password,
     };
     console.log(updateduser);
-    fetch("https://ecom-backend-peach.vercel.app/updatePassword", {
+    if(email=="" || Password=="" || confirmPassword==""){
+      setLoading(false);
+      Alert.alert("Empty Fields", "Please fill all the fields");
+      return;
+    }
+    if(Password!=confirmPassword){
+      setLoading(false);
+      Alert.alert("Password Mismatch", "Passwords do not match");
+      return;
+    }
+    fetch(`${BASE_URL}/updatePassword`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -44,12 +56,15 @@ const ForgotPasswordScreen = () => {
       .then((data) => {
         console.log(data);
         if (data.message === "password updated successfully") {
+          setLoading(false);
           Alert.alert("Password Updated Successfully", "You have successfully updated your password");
           navigation.navigate("Login");
         } else if (data.message === "Invalid password") {
+          setLoading(false);
           Alert.alert("Invalid password", "Please enter correct old password");
         }
         else if (data.message === "Invalid user") {
+          setLoading(false);
           Alert.alert("Invalid User", "User not found");
         }
       })
@@ -65,9 +80,9 @@ const ForgotPasswordScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}>
       <View>
         <Image
-          style={{ width: 150, height: 100 }}
-          source={{ uri: "https://assets.stickpng.com/thumbs/6160562276000b00045a7d97.png" }}
-        />
+                style={{ width: 50, height: 50 ,marginTop:20}}
+                source={require("../assets/logo.webp")}
+               />
       </View>
 
       <KeyboardAvoidingView>
@@ -112,8 +127,8 @@ const ForgotPasswordScreen = () => {
           >
             <MaterialCommunityIcons style={{ marginLeft: 8 }} name="email" size={24} color="#FF8C42" />
             <TextInput
-              value={oldPassword}
-              onChangeText={(text) => setOldPassword(text)}
+              value={Password}
+              onChangeText={(text) => setPassword(text)}
               style={{ color: "#FF8C42", marginVertical: 10, width: 300, fontSize: 16 }}
               placeholder="Enter Old Password"
               placeholderTextColor="#FF8C42"
@@ -135,8 +150,8 @@ const ForgotPasswordScreen = () => {
           >
             <MaterialCommunityIcons name="lock-outline" size={24} color="#FF8C42" style={{ marginLeft: 8 }} />
             <TextInput
-              value={newPassword}
-              onChangeText={(text) => setNewPassword(text)}
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
               secureTextEntry={true}
               style={{ color: "#FF8C42", marginVertical: 10, width: 300, fontSize: 16 }}
               placeholder="Enter New Password"

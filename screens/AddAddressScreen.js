@@ -12,6 +12,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { UserContext, UserType } from '../UserContext';
 import axios from 'axios';
+import BASE_URL from '../config';
 
 const AddAddressScreen = () => {
     const navigation=useNavigation();
@@ -23,7 +24,7 @@ const AddAddressScreen = () => {
 
     const fetchAddresses=async()=>{
       try{
-        const res=await axios.get(`https://ecom-backend-peach.vercel.app/addresses/${userId}`);
+        const res=await axios.get(`${BASE_URL}/${userId}`);
         console.log(res.data);
         const {addresses}=res.data;
         setAddresses(addresses);
@@ -44,7 +45,7 @@ const AddAddressScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
         style={{
-          backgroundColor: '#00CED1',
+          backgroundColor: '#FF8C42',
           padding: 10,
           flexDirection: 'row',
           alignItems: 'center',

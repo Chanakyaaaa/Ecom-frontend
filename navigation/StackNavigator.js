@@ -49,7 +49,7 @@ const StackNavigator = () => {
             ),
         }}
         />
-         <Tab.Screen name="Cart" component={HomeScreen}
+         <Tab.Screen name="Cart" component={CartScreen}
         options={{
           tabBarLabel: 'Cart',
           tabBarLabelStyle: 'red',

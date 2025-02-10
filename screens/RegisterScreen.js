@@ -14,14 +14,17 @@ import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from "axios";
+import BASE_URL from '../config';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = () => {
+    setLoading(true);
     const user = {
       name: name,
       email: email,
@@ -29,7 +32,7 @@ const RegisterScreen = () => {
     };
     console.log(user);
 
-    fetch("https://ecom-backend-peach.vercel.app/register", {
+    fetch(`${BASE_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,13 +43,16 @@ const RegisterScreen = () => {
       .then((data) => {
         console.log(data);
         if (data.message === "user registered successfully,check your email and verify") {
+          setLoading(false);
           Alert.alert("Registration Success", "Check your email to verify your account.");
           navigation.navigate("Login");
         } else if (data.message === "email already registered") {
+          setLoading(false);
           Alert.alert("Registration Error", "User already exists.");
         }
       })
       .catch((error) => {
+        setLoading(false);
         Alert.alert("Registration Error", "An error occurred, please try again");
         console.error("Registration failed:", error.message);
       });
@@ -56,8 +62,8 @@ const RegisterScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}>
       <View>
         <Image
-          style={{ width: 150, height: 100 }}
-          source={{ uri: "https://assets.stickpng.com/thumbs/6160562276000b00045a7d97.png" }}
+          style={{ width: 50, height: 50 ,marginTop:20}}
+          source={require("../assets/logo.webp")}
         />
       </View>
 
@@ -151,7 +157,7 @@ const RegisterScreen = () => {
           }}
         >
           <Text style={{ textAlign: "center", color: "white", fontSize: 16, fontWeight: "bold" }}>
-            Register
+            Register {loading && <ActivityIndicator color="white" />}
           </Text>
         </Pressable>
 

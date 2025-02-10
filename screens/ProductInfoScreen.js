@@ -81,7 +81,7 @@ const ProductInfoScreen = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              <View
+              {/* <View
                 style={{
                   width: 40,
                   height: 40,
@@ -100,8 +100,8 @@ const ProductInfoScreen = () => {
                   }}>
                   20% off
                 </Text>
-              </View>
-              <View
+              </View> */}
+              {/* <View
                 style={{
                   width: 40,
                   height: 40,
@@ -116,10 +116,10 @@ const ProductInfoScreen = () => {
                   size={24}
                   color="black"
                 />
-              </View>
+              </View> */}
             </View>
 
-            <View
+            {/* <View
               style={{
                 width: 40,
                 height: 40,
@@ -133,7 +133,7 @@ const ProductInfoScreen = () => {
                 marginBottom: 20,
               }}>
               <AntDesign name="hearto" size={24} color="black" />
-            </View>
+            </View> */}
           </ImageBackground>
         ))}
       </ScrollView>

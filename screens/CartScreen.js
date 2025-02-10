@@ -15,6 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {decrementQuantity, incrementQuantity, removeFromCart} from '../redux/CartReducer';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import BASE_URL from '../config';
 
 
 const CartScreen = () => {
@@ -42,7 +43,7 @@ const CartScreen = () => {
     <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
       <View
         style={{
-          backgroundColor: '#00CED1',
+          backgroundColor: '#FF8C42',
           padding: 10,
           flexDirection: 'row',
           alignItems: 'center',
@@ -74,11 +75,11 @@ const CartScreen = () => {
         <Text style={{fontSize: 18, fontWeight: '400'}}>Subtotal : </Text>
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>{total}</Text>
       </View>
-      <Text style={{marginHorizontal: 10}}>EMI details Available</Text>
       <Pressable
         onPress={() => navigation.navigate("Confirm")}
+        disabled={cart.length === 0}
         style={{
-          backgroundColor: '#FFC72C',
+          backgroundColor: cart.length === 0 ? 'gray' : '#FF8C42',
           padding: 10,
           borderRadius: 5,
           justifyContent: 'center',
@@ -126,15 +127,15 @@ const CartScreen = () => {
                   {item?.title}
                 </Text>
                 <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 6}}>
-                  {item?.price}
+                ₹{item?.price}
                 </Text>
-                <Image
+                {/* <Image
                   style={{width: 30, height: 30, resizeMode: 'contain'}}
                   source={{
                     uri: 'https://assets.stickpng.com/thumbs/5f4924cc68ecc70004ae7065.png',
                   }}
                 />
-                <Text style={{color: 'green'}}>In Stock</Text>
+                <Text style={{color: 'green'}}>In Stock</Text> */}
                 {/* <Text style={{ fontWeight: "500", marginTop: 6 }}>
                   {item?.rating?.rate} ratings
                 </Text> */}
@@ -228,7 +229,7 @@ const CartScreen = () => {
                 gap: 10,
                 marginBottom: 15,
               }}>
-              <Pressable
+              {/* <Pressable
                 style={{
                   backgroundColor: 'white',
                   paddingHorizontal: 8,
@@ -249,7 +250,7 @@ const CartScreen = () => {
                   borderWidth: 0.6,
                 }}>
                 <Text>See More Like this</Text>
-              </Pressable>
+              </Pressable> */}
             </Pressable>
           </View>
         ))}

@@ -15,6 +15,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BASE_URL from '../config';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     setLoading(true);
-    fetch('https://ecom-backend-peach.vercel.app/login', {
+    fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -71,10 +72,8 @@ const LoginScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
       <View>
         <Image
-          style={{ width: 150, height: 100 }}
-          source={{
-            uri: 'https://assets.stickpng.com/thumbs/6160562276000b00045a7d97.png',
-          }}
+         style={{ width: 50, height: 50 ,marginTop:20}}
+         source={require("../assets/logo.webp")}
         />
       </View>
       <KeyboardAvoidingView>

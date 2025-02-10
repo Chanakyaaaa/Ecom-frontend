@@ -16,6 +16,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {cleanCart} from '../redux/CartReducer';
 import RazorpayCheckout from 'react-native-razorpay';
+import BASE_URL from '../config';
+
 
 const ConfirmationScreen = () => {
   const {userId, setUserId} = useContext(UserType);
@@ -33,6 +35,7 @@ const ConfirmationScreen = () => {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('');
   const cart = useSelector(state => state.cart.cart);
+  const [selectedDeliveryOption, setSelectedDeliveryOption] = useState(null);
   const total = cart
     ?.map(item => item.price * item.quantity)
     .reduce((curr, prev) => curr + prev, 0);
@@ -45,7 +48,7 @@ const ConfirmationScreen = () => {
   const fetchAddresses = async () => {
     try {
       const res = await axios.get(
-        `https://ecom-backend-peach.vercel.app/addresses/${userId}`,
+        `${BASE_URL}/addresses/${userId}`,
       );
       console.log(res.data);
       const {addresses} = res.data;
@@ -65,7 +68,7 @@ const ConfirmationScreen = () => {
         paymentMethod: selectedOption,
       };
       const response = await axios.post(
-        'https://ecom-backend-peach.vercel.app/orders',
+      `${BASE_URL}/orders`,
         orderData,
       );
       if (response.status === 200) {
@@ -106,7 +109,7 @@ const ConfirmationScreen = () => {
       };
       console.log("orderData",orderData);
       const response = await axios.post(
-        'https://ecom-backend-peach.vercel.app/orders',
+        `${BASE_URL}/orders`,
         orderData,
       );
       if (response.status === 200) {
@@ -238,7 +241,7 @@ const ConfirmationScreen = () => {
                       gap: 10,
                       marginTop: 7,
                     }}>
-                    <Pressable
+                    {/* <Pressable
                       style={{
                         backgroundColor: '#F5F5F5',
                         paddingHorizontal: 10,
@@ -270,14 +273,14 @@ const ConfirmationScreen = () => {
                         borderColor: '#D0D0D0',
                       }}>
                       <Text>Set as Default</Text>
-                    </Pressable>
+                    </Pressable> */}
                   </View>
                   <View>
                     {selectedAddress && selectedAddress._id === item._id && (
                       <Pressable
                         onPress={() => setCurrentStep(1)}
                         style={{
-                          backgroundColor: '#008397',
+                          backgroundColor: '#FF8C42',
                           padding: 10,
                           borderRadius: 20,
                           justifyContent: 'center',
@@ -312,35 +315,37 @@ const ConfirmationScreen = () => {
               borderWidth: 1,
               marginTop: 10,
             }}>
-            {option ? (
-              <FontAwesome5 name="dot-circle" size={20} color="#008397" />
-            ) : (
-              <Entypo
-                onPress={() => setOption(!option)}
-                name="circle"
-                size={20}
-                color="gray"
-              />
-            )}
+             {selectedDeliveryOption === 'tomorrow' ? (
+        <FontAwesome5 name="dot-circle" size={20} color="#008397" />
+      ) : (
+        <Entypo
+          onPress={() => setSelectedDeliveryOption('tomorrow')}
+          name="circle"
+          size={20}
+          color="gray"
+        />
+      )}
             <Text style={{flex: 1}}>
               <Text style={{color: 'green', fontWeight: '500'}}>
                 Tomorrow by 10pm
               </Text>{' '}
-              - FREE delivery with your Prime membership
+              - FREE delivery 
             </Text>
           </View>
-          <Pressable
-            onPress={() => setCurrentStep(2)}
-            style={{
-              backgroundColor: '#FFC72C',
-              padding: 10,
-              borderRadius: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 15,
-            }}>
-            <Text>Continue</Text>
-          </Pressable>
+          {selectedDeliveryOption === 'tomorrow' && (
+      <Pressable
+        onPress={() => setCurrentStep(2)}
+        style={{
+          backgroundColor: '#FF8C42',
+          padding: 10,
+          borderRadius: 20,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 15,
+        }}>
+        <Text style={{color: 'white'}}>Continue</Text>
+      </Pressable>
+    )}
         </View>
       )}
 
@@ -410,9 +415,10 @@ const ConfirmationScreen = () => {
           </View>
 
           <Pressable
-            onPress={() => setCurrentStep(3)}
+            onPress={() =>selectedOption && setCurrentStep(3)}
+            disabled={!selectedOption}
             style={{
-              backgroundColor: '#FFC72C',
+              backgroundColor: selectedOption ? '#FF8C42' : 'gray',
               padding: 10,
               borderRadius: 20,
               justifyContent: 'center',
@@ -427,7 +433,7 @@ const ConfirmationScreen = () => {
       {currentStep == 3 && selectedOption == 'cash' && (
         <View style={{marginHorizontal: 20}}>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>Order Now</Text>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -453,7 +459,7 @@ const ConfirmationScreen = () => {
               size={24}
               color="black"
             />
-          </View>
+          </View> */}
 
           <View
             style={{

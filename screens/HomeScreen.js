@@ -26,6 +26,7 @@ import {SlideAnimation, ModalContent} from 'react-native-modals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {jwtDecode} from "jwt-decode";
 import { UserType } from '../UserContext';
+import BASE_URL from '../config';
 
 
 const HomeScreen = () => {
@@ -287,7 +288,7 @@ const HomeScreen = () => {
 
   const fetchAddresses=async()=>{
     try{
-      const res=await axios.get(`https://ecom-backend-peach.vercel.app/addresses/${userId}`);
+      const res=await axios.get(`${BASE_URL}/addresses/${userId}`);
       // console.log(res.data);
       const {addresses}=res.data;
       setAddresses(addresses);
@@ -330,7 +331,7 @@ const HomeScreen = () => {
                 size={22}
                 color="black"
               />
-              <TextInput placeholder="Search Amazon.in" />
+              <TextInput style={{color:"black"}} placeholder="Search Amazon.in" />
             </Pressable>
 
             <Ionicons name="mic" size={24} color="black" />
@@ -360,7 +361,7 @@ const HomeScreen = () => {
             <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
           </Pressable>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {list.map((item, index) => (
               <Pressable
                 key={index}
@@ -385,7 +386,7 @@ const HomeScreen = () => {
                 </Text>
               </Pressable>
             ))}
-          </ScrollView>
+          </ScrollView> */}
 
           {/* carousel */}
 

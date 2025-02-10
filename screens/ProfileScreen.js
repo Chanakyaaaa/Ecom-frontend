@@ -13,6 +13,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {UserType} from '../UserContext';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BASE_URL from '../config';
+
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -53,7 +55,7 @@ const ProfileScreen = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `https://ecom-backend-peach.vercel.app/profile/${userId}`,
+          `${BASE_URL}/profile/${userId}`,
         );
         const {user} = response.data;
         setUser(user);
@@ -78,7 +80,7 @@ const ProfileScreen = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `https://ecom-backend-peach.vercel.app/orders/${userId}`,
+          `${BASE_URL}/orders/${userId}`,
         );
         const orders = response.data.orders;
         setOrders(orders);
@@ -132,7 +134,7 @@ const ProfileScreen = () => {
           gap: 10,
           marginTop: 12,
         }}>
-        <Pressable
+        {/* <Pressable
         onPress={()=>setButtonClicked("Buy Again")}
           style={{
             padding: 10,
@@ -141,7 +143,7 @@ const ProfileScreen = () => {
             flex: 1,
           }}>
           <Text style={{fontSize:16,textAlign: 'center',color:"#FF8C42",fontWeight:'bold'}}>Buy Again</Text>
-        </Pressable>
+        </Pressable> */}
 
         <Pressable
           onPress={logout}
@@ -199,21 +201,13 @@ const ProfileScreen = () => {
         <Text>{user?.name}</Text>
         </View>
         <View style={{marginTop: 10}}>
-        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Name</Text>
-        <Text>{user?.name}</Text>
-        </View>
-        <View style={{marginTop: 10}}>
-        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Name</Text>
+        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Email</Text>
         <Text>{user?.email}</Text>
         </View>
-        <View style={{marginTop: 10}}>
-        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Name</Text>
-        <Text>{user?.password}</Text>
-        </View>
-        <View style={{marginTop: 10}}>
+        {/* <View style={{marginTop: 10}}>
         <Text style={{fontSize: 16, fontWeight: 'bold'}}>Name</Text>
         <Text>{user?.addresses[0].city}</Text>
-        </View>
+        </View> */}
     </View>
 }
    
